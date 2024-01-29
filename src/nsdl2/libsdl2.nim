@@ -42,12 +42,20 @@ when use_touch:
 import sdl2inc/version
 import sdl2inc/video
 
-when defined posix:
-  const lib_paths = [ "libSDL2-2.0.so", "libSDL2-2.0.so.0" ]
-elif defined macosx:
-  const lib_paths = [ "libSDL2.dynlib" ]
+when defined macosx:
+  const lib_paths = [
+    "libSDL2-2.0.0.dylib",
+    "libSDL2.dylib"
+  ]
+elif defined posix:
+  const lib_paths = [
+    "libSDL2-2.0.so",
+    "libSDL2-2.0.so.0"
+  ]
 elif defined windows:
-  const lib_paths = [ "SDL2.dll" ]
+  const lib_paths = [
+    "SDL2.dll"
+  ]
 else:
   {.fatal: "unsupported platform.".}
 
