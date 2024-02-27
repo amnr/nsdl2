@@ -311,6 +311,9 @@ when use_audio:
     ##  ```c
     ##  int SDL_GetDefaultAudioInfo(char **name, SDL_AudioSpec *spec, int iscapture);
     ##  ```
+    ##
+    ##  Since SDL 2.24.0.
+    available_since SDL_GetQueuedAudioSize, "2.0.4"
     var outname: cstring = nil
     ensure_zero "SDL_GetDefaultAudioInfo":
       SDL_GetDefaultAudioInfo outname.addr, spec.addr, iscapture.cint

@@ -128,11 +128,12 @@ dlgencalls "sdl2", lib_paths:
 
     proc SDL_GetCurrentAudioDriver(): cstring
 
+    # Since SDL 2.24.0.
     proc SDL_GetDefaultAudioInfo(
       name      : ptr cstring,
       spec      : ptr AudioSpec,
       iscapture : cint
-    ): cint
+    ): cint {.unchecked.}
 
     proc SDL_GetNumAudioDevices(iscapture: cint): cint
 

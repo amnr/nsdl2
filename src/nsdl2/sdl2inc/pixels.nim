@@ -214,16 +214,16 @@ else:
 type
   Color* {.final, pure.} = object
     ##  Color.
-    r*                : byte
-    g*                : byte
-    b*                : byte
-    a*                : byte
+    r*  : byte
+    g*  : byte
+    b*  : byte
+    a*  : byte
 
   Palette* {.final, pure.} = object
-    ncolors*          : cint
-    colors*           :  ptr UncheckedArray[Color]
-    version*          : uint32
-    refcount          : cint
+    ncolors*  : cint
+    colors*   : ptr UncheckedArray[Color]
+    version*  : uint32
+    refcount  : cint
 
   PixelFormat* {.final, pure.} = object
     ##  Pixel format. All attributes are read-only.
