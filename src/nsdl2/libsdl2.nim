@@ -118,7 +118,7 @@ dlgencalls "sdl2", lib_paths:
       index     : cint,
       iscapture : cint,
       spec      : ptr AudioSpec
-    ): cint
+    ): cint {.unchecked.}   # SDL 2.0.16.
 
     proc SDL_GetAudioDeviceStatus(dev: AudioDeviceID): AudioStatus
 

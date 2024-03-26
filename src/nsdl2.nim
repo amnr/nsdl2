@@ -275,6 +275,7 @@ when use_audio:
     ##  ```c
     ##  int SDL_GetAudioDeviceSpec(int index, int iscapture, SDL_AudioSpec *spec);
     ##  ```
+    available_since SDL_GetAudioDeviceSpec, "2.0.16"
     ensure_zero "SDL_GetAudioDeviceSpec":
       SDL_GetAudioDeviceSpec index.cint, iscapture.cint, spec.addr
 
