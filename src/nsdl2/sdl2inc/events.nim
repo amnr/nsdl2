@@ -77,6 +77,8 @@ type
     EVENT_CONTROLLERTOUCHPADMOTION  = 0x657
     EVENT_CONTROLLERTOUCHPADUP      = 0x658
     EVENT_CONTROLLERSENSORUPDATE    = 0x659
+    EVENT_CONTROLLERUPDATECOMPLETE_RESERVED_FOR_SDL3
+    EVENT_CONTROLLERSTEAMHANDLEUPDATED
 
     # Touch events.
     EVENT_FINGERDOWN                = 0x700
@@ -302,8 +304,9 @@ type
   ControllerDeviceEvent* {.final, pure.} = object
     ##  Controller device event.
     typ*          : EventType   ##  `EVENT_CONTROLLERDEVICEADDED`,
-                                ##  `EVENT_CONTROLLERDEVICEREMOVED`
-                                ##  or `EVENT_CONTROLLERDEVICEREMAPPED`.
+                                ##  `EVENT_CONTROLLERDEVICEREMOVED`,
+                                ##  `EVENT_CONTROLLERDEVICEREMAPPED`
+                                ##  or `EVENT_CONTROLLERSTEAMHANDLEUPDATED`.
     timestamp*    : uint32      ##  Timestamp (ms).
     which*        : int32       ##  Joystick device index for the `ADDED` event
                                 ##  or instance id for the `REMOVED`
@@ -398,11 +401,6 @@ type
 
   QuitEvent* {.final, pure.} = object
     ##  The "quit requested" event.
-    typ*          : EventType   ##  `EVENT_QUIT`.
-    timestamp*    : uint32      ##  Timestamp (ms).
-
-  OSEvent* {.final, pure.} = object
-    ##  OS Specific event.
     typ*          : EventType   ##  `EVENT_QUIT`.
     timestamp*    : uint32      ##  Timestamp (ms).
 

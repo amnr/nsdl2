@@ -57,8 +57,12 @@
 
 {.push raises: [].}
 
-when NimMajor >= 2 and defined nimPreviewSlimSystem:
+when defined nimPreviewSlimSystem:
   from std/assertions import assert
+
+import std/options
+
+export options
 
 import nsdl2/config
 import nsdl2/libsdl2
@@ -1939,12 +1943,13 @@ proc RenderWindowToLogical*(renderer: Renderer, window_x: int, window_y: int,
   logical_y = outy
   true
 
-proc SetRenderDrawBlendMode*(renderer: Renderer, blend_mode: BlendMode): bool =
-  ##  ```c
-  ##  int SDL_SetRenderDrawBlendMode(SDL_Renderer *renderer, SDL_BlendMode blendMode);
-  ##  ```
-  ensure_zero "SDL_SetRenderDrawBlendMode":
-    SDL_SetRenderDrawBlendMode renderer, blend_mode
+when use_blendmode:
+  proc SetRenderDrawBlendMode*(renderer: Renderer, blend_mode: BlendMode): bool =
+    ##  ```c
+    ##  int SDL_SetRenderDrawBlendMode(SDL_Renderer *renderer, SDL_BlendMode blendMode);
+    ##  ```
+    ensure_zero "SDL_SetRenderDrawBlendMode":
+      SDL_SetRenderDrawBlendMode renderer, blend_mode
 
 proc SetRenderDrawColor*(renderer: Renderer, r: byte, g: byte, b: byte,
                          a: byte = 0xff): bool =
@@ -1971,13 +1976,14 @@ proc SetTextureAlphaMod*(texture: Texture, a: byte): bool =
   ensure_zero "SDL_SetTextureAlphaMod":
     SDL_SetTextureAlphaMod texture, a
 
-proc SetTextureBlendMode*(texture: Texture, blend_mode: BlendMode): bool =
-  ##  ```c
-  ##  int SDL_SetTextureBlendMode(SDL_Texture *texture,
-  ##                              SDL_BlendMode blendMode);
-  ##  ```
-  ensure_zero "SDL_SetTextureBlendMode":
-    SDL_SetTextureBlendMode texture, blend_mode
+when use_blendmode:
+  proc SetTextureBlendMode*(texture: Texture, blend_mode: BlendMode): bool =
+    ##  ```c
+    ##  int SDL_SetTextureBlendMode(SDL_Texture *texture,
+    ##                              SDL_BlendMode blendMode);
+    ##  ```
+    ensure_zero "SDL_SetTextureBlendMode":
+      SDL_SetTextureBlendMode texture, blend_mode
 
 proc SetTextureColorMod*(texture: Texture, r: byte, g: byte, b: byte): bool =
   ##  ```c
@@ -2551,6 +2557,18 @@ proc GetDisplayBounds*(display_index: Natural, rect: var Rect): bool =
   ensure_zero "SDL_GetDisplayBounds":
     SDL_GetDisplayBounds(display_index.cint, rect.addr)
 
+proc GetDisplayBounds*(display_index: Natural): Option[Rect] =
+  ##  Get the desktop area represented by a display.
+  ##
+  ##  ```c
+  ##  int SDL_GetDisplayBounds(int displayIndex, SDL_Rect *rect);
+  ##  ```
+  var bounds = Rect.init(-1, -1, -1, -1)
+  if not GetDisplayBounds(display_index, bounds):
+    return none Rect
+  some bounds
+
+# XXX: deprecate?
 proc GetDisplayBounds*(display_index: Natural, x: var int, y: var int,
                        width: var int, height: var int): bool =
   ##  Get the desktop area represented by a display.
@@ -2637,7 +2655,20 @@ proc GetDisplayUsableBounds*(display_index: Natural, rect: var Rect): bool =
   ensure_zero "SDL_GetDisplayUsableBounds":
     SDL_GetDisplayUsableBounds(display_index.cint, rect.addr)
 
-# XXX:
+proc GetDisplayUsableBounds*(display_index: Natural): Option[Rect] =
+  ##  Get the usable desktop area represented by a display.
+  ##
+  ##  Available since SDL 2.0.5. Equal to `GetDisplayBounds`_ prior SDL 2.0.5.
+  ##
+  ##  ```c
+  ##  int SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rect *rect);
+  ##  ```
+  var rect {.noinit.}: Rect
+  if not GetDisplayUsableBounds(display_index, rect):
+    return none Rect
+  some rect
+
+# XXX: deprecate?
 proc GetDisplayUsableBounds*(display_index: Natural, x: var int, y: var int,
                              width: var int, height: var int): bool =
   ##  Get the usable desktop area represented by a display.
@@ -2733,7 +2764,7 @@ proc GetWindowDisplayIndex*(window: Window): int =
   ##  ```c
   ##  int SDL_GetWindowDisplayIndex(SDL_Window *window)
   ##  ```
-  ensure_positive "SDL_GetWindowDisplayIndex":
+  ensure_natural "SDL_GetWindowDisplayIndex":
     SDL_GetWindowDisplayIndex window
 
 proc GetWindowDisplayMode*(window: Window, mode: var DisplayMode): bool =

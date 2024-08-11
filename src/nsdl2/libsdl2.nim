@@ -313,6 +313,7 @@ dlgencalls "sdl2", lib_paths:
   # float SDL_GameControllerGetSensorDataRate(SDL_GameController *gamecontroller, SDL_SensorType type)
   # int SDL_GameControllerGetSensorDataWithTimestamp(SDL_GameController *gamecontroller, SDL_SensorType type, Uint64 *timestamp, float *data, int num_values)
   # const char * SDL_GameControllerGetSerial(SDL_GameController *gamecontroller)
+  # Uint64 SDL_GameControllerGetSteamHandle(SDL_GameController *gamecontroller)
   # const char* SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis)
   # const char* SDL_GameControllerGetStringForButton(SDL_GameControllerButton button)
   # int SDL_GameControllerGetTouchpadFinger(SDL_GameController *gamecontroller, int touchpad, int finger, Uint8 *state, float *x, float *y, float *pressure)
@@ -907,8 +908,9 @@ dlgencalls "sdl2", lib_paths:
                                  window_x, window_y: cint,
                                  logical_x, logical_y: ptr cfloat) {.unchecked.}
 
-  proc SDL_SetRenderDrawBlendMode(renderer: Renderer,
-                                  blend_mode: BlendMode): cint
+  when use_blendmode:
+    proc SDL_SetRenderDrawBlendMode(renderer: Renderer,
+                                    blend_mode: BlendMode): cint
 
   proc SDL_SetRenderDrawColor(renderer: Renderer, r, g, b, a: byte): cint
 
@@ -916,8 +918,9 @@ dlgencalls "sdl2", lib_paths:
 
   proc SDL_SetTextureAlphaMod(texture: Texture, a: byte): cint
 
-  proc SDL_SetTextureBlendMode(texture: Texture,
-                               blend_mode: BlendMode): cint
+  when use_blendmode:
+    proc SDL_SetTextureBlendMode(texture: Texture,
+                                 blend_mode: BlendMode): cint
 
   proc SDL_SetTextureColorMod(texture: Texture, r, g, b: byte): cint
 
@@ -1136,6 +1139,7 @@ dlgencalls "sdl2", lib_paths:
 
   proc SDL_DestroyWindow(window: Window)
 
+  # SDL 2.28.0.
   # int SDL_DestroyWindowSurface(SDL_Window *window)
 
   proc SDL_DisableScreenSaver()
