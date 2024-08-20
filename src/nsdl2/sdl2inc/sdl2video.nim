@@ -1,12 +1,13 @@
 ##  Video definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from pixels import PixelFormatEnum
-from rect import Point
+from sdl2pixels import PixelFormatEnum
+from sdl2rect import Point
 
 type
   DisplayMode* {.final, pure.} = object     # XXX: bycopy?

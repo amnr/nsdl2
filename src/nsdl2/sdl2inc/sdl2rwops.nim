@@ -1,4 +1,5 @@
-##  Gesture event definitions.
+##  RWops definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
@@ -6,6 +7,6 @@
 {.push raises: [].}
 
 type
-  GestureID* = int64
+    RWops* = ptr object
 
 # vim: set sts=2 et sw=2:

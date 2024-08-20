@@ -1,17 +1,18 @@
 ##  Event definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from audio import AudioDeviceID
-from gesture import GestureID
-from joystick import Hat, JoystickID
-from keyboard import Keysym
-from sensor import SensorID
-from touch import FingerID, TouchID
-from video import DisplayEventID, WindowEventID
+from sdl2audio import AudioDeviceID
+from sdl2gesture import GestureID
+from sdl2joystick import Hat, JoystickID
+from sdl2keyboard import Keysym
+from sdl2sensor import SensorID
+from sdl2touch import FingerID, TouchID
+from sdl2video import DisplayEventID, WindowEventID
 
 # General keyboard/mouse state definitions.
 const

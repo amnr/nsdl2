@@ -1,46 +1,47 @@
 ##  SDL 2.0 ABI.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-import dlutils
+import pkg/dlutils
 
 import config
 
 when use_audio:
-  import sdl2inc/audio
+  import sdl2inc/sdl2audio
 when use_blendmode:
-  import sdl2inc/blendmode
+  import sdl2inc/sdl2blendmode
 # XXX: use_gamecontroller
 # XXX: use_gesture
-import sdl2inc/events
+import sdl2inc/sdl2events
 # XXX: use_haptic
 when use_hints:
-  import sdl2inc/hints
-import sdl2inc/init
+  import sdl2inc/sdl2hints
+import sdl2inc/sdl2init
 when use_joystick:
-  import sdl2inc/joystick
-# XXX: use_keyboard
-# import sdl2inc/keycode
-import sdl2inc/log
+  import sdl2inc/sdl2joystick
+when use_keyboard:
+  import sdl2inc/sdl2keycode
+import sdl2inc/sdl2log
 when use_messagebox:
-  import sdl2inc/messagebox
+  import sdl2inc/sdl2messagebox
 when use_mouse:
-  import sdl2inc/mouse
-import sdl2inc/pixels
-import sdl2inc/rect
-import sdl2inc/render
-import sdl2inc/rwops
+  import sdl2inc/sdl2mouse
+import sdl2inc/sdl2pixels
+import sdl2inc/sdl2rect
+import sdl2inc/sdl2render
+import sdl2inc/sdl2rwops
 # XXX: use_sensor
 # XXX: use_shape
-import sdl2inc/surface
-import sdl2inc/timer
+import sdl2inc/sdl2surface
+import sdl2inc/sdl2timer
 when use_touch:
-  import sdl2inc/touch
-import sdl2inc/version
-import sdl2inc/video
+  import sdl2inc/sdl2touch
+import sdl2inc/sdl2version
+import sdl2inc/sdl2video
 
 when defined macosx:
   const lib_paths = [
@@ -513,7 +514,8 @@ dlgencalls "sdl2", lib_paths:
     # void SDL_ClearComposition(void)
     # SDL_Keycode SDL_GetKeyFromName(const char *name)
     # SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode)
-    # const char *SDL_GetKeyName(SDL_Keycode key)
+
+    proc SDL_GetKeyName(key: Keycode): cstring
 
     proc SDL_GetKeyboardFocus(): Window
 

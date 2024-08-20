@@ -1,12 +1,13 @@
 ##  Keyboard event definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from keycode import Keycode, Keymod
-from scancode import Scancode
+from sdl2keycode import Keycode, Keymod
+from sdl2scancode import Scancode
 
 type
   Keysym* {.final, pure.} = object

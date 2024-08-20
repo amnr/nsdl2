@@ -1,12 +1,13 @@
 ##  Renderer definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from pixels import Color
-from rect import FPoint
+from sdl2pixels import Color, PixelFormatEnum
+from sdl2rect import FPoint
 
 type
   RendererFlags* = distinct uint32
@@ -30,7 +31,7 @@ type
     flags*                : RendererFlags       ##  Supported flags.
     num_texture_formats*  : uint32              ##  The number of available
                                                 ##  texture formats.
-    texture_formats*      : array[16, uint32]   ##  Available texture formats.
+    texture_formats*      : array[16, PixelFormatEnum]   ##  Available texture formats.
     max_texture_width*    : cint                ##  Maximum texture width.
     max_texture_height*   : cint                ##  Maximum texture height.
 

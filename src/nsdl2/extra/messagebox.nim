@@ -1,4 +1,8 @@
 ##  Message box utils.
+##
+#[
+  SPDX-License-Identifier: NCSA OR MIT OR Zlib
+]#
 
 {.push raises: [].}
 

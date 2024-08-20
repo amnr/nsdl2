@@ -1,12 +1,13 @@
 ##  Surface definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from pixels import PixelFormat
-from rect import Rect
+from sdl2pixels import PixelFormat
+from sdl2rect import Rect
 
 type
   SurfaceFlags* = distinct uint32

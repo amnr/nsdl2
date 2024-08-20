@@ -1,4 +1,5 @@
 ##  SDL2 library wrapper.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#

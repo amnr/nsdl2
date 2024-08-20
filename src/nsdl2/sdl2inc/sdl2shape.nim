@@ -1,11 +1,12 @@
 ##  Shape definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-from pixels import Color
+from sdl2pixels import Color
 
 const
   NONSHAPEABLE_WINDOW*    = -1

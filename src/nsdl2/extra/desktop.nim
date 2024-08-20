@@ -1,4 +1,8 @@
 ##  Desktop related functions.
+##
+#[
+  SPDX-License-Identifier: NCSA OR MIT OR Zlib
+]#
 
 import ../../nsdl2
 

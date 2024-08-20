@@ -1,11 +1,12 @@
 ##  Keyboard keys and modifiers definitions.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#
 
 {.push raises: [].}
 
-import scancode
+import sdl2scancode
 
 const SDLK_SCANCODE_MASK = 1'u32 shl 30
 

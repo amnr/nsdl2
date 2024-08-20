@@ -1,4 +1,5 @@
 ##  SDL2 config.
+##
 #[
   SPDX-License-Identifier: NCSA OR MIT OR Zlib
 ]#

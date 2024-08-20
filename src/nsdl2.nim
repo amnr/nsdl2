@@ -71,55 +71,48 @@ import nsdl2/utils
 export open_sdl2_library, close_sdl2_library, last_sdl2_error
 
 when use_audio:
-  import nsdl2/sdl2inc/audio
-import nsdl2/sdl2inc/blendmode
-import nsdl2/sdl2inc/events
-when use_hints:
-  import nsdl2/sdl2inc/hints
-import nsdl2/sdl2inc/init
-when use_joystick:
-  import nsdl2/sdl2inc/joystick
-import nsdl2/sdl2inc/keycode
-import nsdl2/sdl2inc/log
-when use_messagebox:
-  import nsdl2/sdl2inc/messagebox
-when use_mouse:
-  import nsdl2/sdl2inc/mouse
-import nsdl2/sdl2inc/pixels
-import nsdl2/sdl2inc/rect
-import nsdl2/sdl2inc/render
-import nsdl2/sdl2inc/rwops
-import nsdl2/sdl2inc/surface
-import nsdl2/sdl2inc/timer
-when use_touch:
-  import nsdl2/sdl2inc/touch
-import nsdl2/sdl2inc/version
-import nsdl2/sdl2inc/video
-
-when use_audio:
-  export audio
+  import nsdl2/sdl2inc/sdl2audio
+  export sdl2audio
 when use_blendmode:
-  export blendmode
-export events
+  import nsdl2/sdl2inc/sdl2blendmode
+  export sdl2blendmode
+import nsdl2/sdl2inc/sdl2events
+export sdl2events
 when use_hints:
-  export hints
-export init
+  import nsdl2/sdl2inc/sdl2hints
+  export sdl2hints
+import nsdl2/sdl2inc/sdl2init
+export sdl2init
 when use_joystick:
-  export joystick
-export keycode
-export log
+  import nsdl2/sdl2inc/sdl2joystick
+  export sdl2joystick
+import nsdl2/sdl2inc/sdl2keycode
+export sdl2keycode
+import nsdl2/sdl2inc/sdl2log
+export sdl2log
 when use_messagebox:
-  export messagebox
+  import nsdl2/sdl2inc/sdl2messagebox
+  export sdl2messagebox
 when use_mouse:
-  export mouse
-export pixels
-export rect
-export render
-export surface
-export timer
+  import nsdl2/sdl2inc/sdl2mouse
+  export sdl2mouse
+import nsdl2/sdl2inc/sdl2pixels
+export sdl2pixels
+import nsdl2/sdl2inc/sdl2rect
+export sdl2rect
+import nsdl2/sdl2inc/sdl2render
+export sdl2render
+import nsdl2/sdl2inc/sdl2rwops
+import nsdl2/sdl2inc/sdl2surface
+export sdl2surface
+import nsdl2/sdl2inc/sdl2timer
+export sdl2timer
 when use_touch:
-  export touch
-export video
+  import nsdl2/sdl2inc/sdl2touch
+  export sdl2touch
+import nsdl2/sdl2inc/sdl2version
+import nsdl2/sdl2inc/sdl2video
+export sdl2video
 
 # =========================================================================== #
 # ==  SDL2 library functions                                               == #
@@ -1066,7 +1059,10 @@ when use_keyboard:
   # void SDL_ClearComposition(void)
   # SDL_Keycode SDL_GetKeyFromName(const char *name)
   # SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode)
-  # const char *SDL_GetKeyName(SDL_Keycode key)
+
+  proc GetKeyName*(key: Keycode): string {.inline.} =
+    ##  XXX.
+    $SDL_GetKeyName key
 
   proc GetKeyboardFocus*(): Window {.inline.} =
     ##  ```c
@@ -3240,6 +3236,11 @@ proc UpdateWindowSurface*(window: Window): bool =
 
 # int SDL_UpdateWindowSurfaceRects(SDL_Window *window, const SDL_Rect *rects,
 #     int numrects)
+
+proc VideoInit*(): bool =
+  ##  Initialize the video subsystem.
+  ensure_zero "SDL_VideoInit":
+    SDL_VideoInit nil
 
 proc VideoInit*(driver_name: string): bool =
   ##  Initialize the video subsystem, optionally specifying a video driver.
