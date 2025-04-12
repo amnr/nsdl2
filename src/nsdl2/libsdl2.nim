@@ -64,6 +64,8 @@ else:
 # ==  SDL2 library object                                                  == #
 # =========================================================================== #
 
+{.push hint[GlobalVar]: off.}
+
 dlgencalls "sdl2", lib_paths:
 
   # ------------------------------------------------------------------------- #
@@ -1063,7 +1065,9 @@ dlgencalls "sdl2", lib_paths:
   #     SDL_BlendMode blendMode)
   # int SDL_SetSurfaceColorMod(SDL_Surface *surface,
   #     Uint8 r, Uint8 g, Uint8 b)
-  # int SDL_SetSurfacePalette(SDL_Surface *surface, SDL_Palette *palette)
+
+  proc SDL_SetSurfacePalette(surface: SurfacePtr, palette: ptr Palette): cint
+
   # int SDL_SetSurfaceRLE(SDL_Surface *surface, int flag)
   # void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE mode)
   # int SDL_SoftStretch(SDL_Surface *src, const SDL_Rect *srcrect,
@@ -1363,5 +1367,7 @@ dlgencalls "sdl2", lib_paths:
   # void *SDL_Vulkan_GetVkGetInstanceProcAddr(void)
   # int SDL_Vulkan_LoadLibrary(const char *path)
   # void SDL_Vulkan_UnloadLibrary(void)
+
+{.push hint[GlobalVar]: on.}
 
 # vim: set sts=2 et sw=2:

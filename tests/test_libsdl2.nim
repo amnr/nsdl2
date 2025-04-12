@@ -6,7 +6,7 @@
 {.push raises: [].}
 
 import nsdl2/libsdl2
-from nsdl2/sdl2inc/version import Version
+from nsdl2/sdl2inc/sdl2version import Version
 
 proc main() =
   if not open_sdl2_library():

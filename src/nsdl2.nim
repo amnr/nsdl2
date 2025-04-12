@@ -1394,8 +1394,12 @@ proc PixelFormatEnumToMasks*(format: PixelFormatEnum): tuple[bpp: int, rmask, gm
     return (0, 0, 0, 0, 0)
   (bpp.int, rmask, gmask, bmask, amask)
 
-# int SDL_SetPaletteColors(SDL_Palette *palette, const SDL_Color *colors,
-#     int firstcolor, int ncolors)
+proc SetPaletteColors*(palette: var Palette, colors: openArray[Color],
+                       firstcolor: int = 0, ncolors: int = 0): bool =
+  let ncolors = if ncolors > 0: ncolors else: colors.len - firstcolor
+  ensure_zero "SDL_SetPaletteColors":
+    SDL_SetPaletteColors palette.addr, colors[0].addr, firstcolor.cint,
+                         ncolors.cint
 
 proc SetPixelFormatPalette*(format: var PixelFormat, palette: Palette): bool =
   ##  ```c
@@ -2233,7 +2237,11 @@ proc SetColorKey*(surface: SurfacePtr, flag: bool, key: uint32): bool =
 # int SDL_SetSurfaceAlphaMod(SDL_Surface *surface, Uint8 alpha)
 # int SDL_SetSurfaceBlendMode(SDL_Surface *surface, SDL_BlendMode blendMode)
 # int SDL_SetSurfaceColorMod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
-# int SDL_SetSurfacePalette(SDL_Surface *surface, SDL_Palette *palette)
+
+proc SetSurfacePalette*(surface: SurfacePtr, palette: Palette): bool =
+  ensure_zero "SDL_SetSurfacePalette":
+    SDL_SetSurfacePalette surface, palette.addr
+
 # int SDL_SetSurfaceRLE(SDL_Surface *surface, int flag)
 # void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE mode)
 # int SDL_SoftStretch(SDL_Surface *src, const SDL_Rect *srcrect,
@@ -2340,7 +2348,6 @@ proc RemoveTimer*(id: TimerID): bool {.discardable, inline.} =
   ##  ```c
   ##  SDL_bool SDL_RemoveTimer(SDL_TimerID id);
   ##  ```
-  {.warning: "print a warning?".}
   SDL_RemoveTimer id
 
 # --------------------------------------------------------------------------- #
@@ -3313,6 +3320,10 @@ proc LoadBMP*(file: string): SurfacePtr {.inline.} =
 # =========================================================================== #
 # ==  Helper functions                                                     == #
 # =========================================================================== #
+
+proc GetVersionString*(): string =
+  let ver = GetVersion()
+  $ver.major & '.' & $ver.minor & '.' & $ver.patch
 
 proc sdl2_avail*(flags = INIT_VIDEO): bool =
   result = Init flags
